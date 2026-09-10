@@ -1,0 +1,8 @@
+# Engineering Mathematics + MATLAB Teaching Package
+# Verification & Test Infrastructure Dependencies
+
+pytest>=7.0.0
+numpy>=1.22.0
+scipy>=1.9.0
+pandas>=1.4.0
+matplotlib>=3.5.0
