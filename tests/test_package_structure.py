@@ -401,3 +401,47 @@ def test_existing_modules_readmes_meet_size_threshold(package_root):
         readme = package_root / mod / "README.md"
         if readme.exists():
             assert readme.stat().st_size >= 1500, f"Module '{mod}/README.md' is under 1500 bytes ({readme.stat().st_size} B)"
+
+
+def test_full_package_verification_auditor_zero_errors(package_root):
+    """Verify that full verify_package.py runner produces 0 errors and status SUCCESS."""
+    runner = VerificationRunner(root_dir=package_root)
+    exit_code = runner.run()
+    assert exit_code == 0, f"Full verification runner exited with non-zero code {exit_code}"
+    assert runner.report.is_success, f"Full verification reported {runner.report.error_count} errors"
+    assert runner.report.error_count == 0
+
+
+def test_all_cheat_sheets_exist_and_meet_thresholds(package_root):
+    """Verify all 4 reference cheat sheets exist and have substantive content."""
+    cheatsheets = [
+        "matlab_cheat_sheet.md",
+        "linear_algebra_cheat_sheet.md",
+        "calculus_cheat_sheet.md",
+        "probability_cheat_sheet.md",
+    ]
+    ref_dir = package_root / "reference"
+    assert ref_dir.exists() and ref_dir.is_dir()
+    for cs in cheatsheets:
+        p = ref_dir / cs
+        assert p.exists(), f"Cheat sheet '{cs}' missing"
+        assert p.stat().st_size >= 1500, f"Cheat sheet '{cs}' too small: {p.stat().st_size} B"
+
+
+def test_assessments_exist_and_meet_thresholds(package_root):
+    """Verify FINAL_ASSESSMENT.md and RUBRIC.md exist and meet size thresholds."""
+    final_assess = package_root / "assessments" / "FINAL_ASSESSMENT.md"
+    rubric = package_root / "assessments" / "RUBRIC.md"
+    assert final_assess.exists()
+    assert final_assess.stat().st_size >= 3500, f"FINAL_ASSESSMENT.md is {final_assess.stat().st_size} B (expected >= 3500 B)"
+    assert rubric.exists()
+    assert rubric.stat().st_size >= 1200, f"RUBRIC.md is {rubric.stat().st_size} B (expected >= 1200 B)"
+
+
+def test_capstone_analysis_complete_exists(package_root):
+    """Verify capstone/capstone_analysis_complete.m exists and has no TODO markers."""
+    capstone_complete = package_root / "capstone" / "capstone_analysis_complete.m"
+    assert capstone_complete.exists()
+    content = capstone_complete.read_text(encoding="utf-8")
+    assert "TODO" not in content
+    assert capstone_complete.stat().st_size >= 2500

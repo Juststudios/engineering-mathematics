@@ -19,6 +19,7 @@ By completing this module, you will be able to:
 5. **Formulate** and **synthesize** digital moving-average filters to suppress Gaussian white noise from sensor telemetry streams, quantifying Signal-to-Noise Ratio (SNR) improvements.
 6. **Evaluate** system reliability, Mean Time Between Failures (MTBF), and survival curves for redundant (series, parallel, and $k$-out-of-$n$) engineering architectures under exponential failure kinetics.
 7. **Diagnose** and **debug** statistical computation errors in MATLAB, including biased variance estimators ($N$ vs $N-1$) and confusing uniform `rand` with Gaussian `randn`.
+8. **AI/ML Architecture Bridge**: Formulate continuous Gaussian conjugate Bayesian updates, evaluate Information Theoretic metrics (Entropy, Cross-Entropy, KL Divergence), quantify Aleatoric vs Epistemic predictive variance, and implement stochastic Temperature-Scaled Nucleus (Top-$p$) sampling for generative agents.
 
 ---
 
@@ -303,4 +304,17 @@ The exercises for this module are structured into four progressive pedagogical t
 
 Complete, production-grade reference solutions with zero remaining `% TODO` markers are provided in [../solutions/probability_exercises_solution.m](../solutions/probability_exercises_solution.m).
 
-For quick formula and syntax reminders, refer to the central reference sheet `reference/probability_cheat_sheet.md`.
+For quick formula and syntax reminders, refer to the central reference sheet [`../reference/probability_cheat_sheet.md`](../reference/probability_cheat_sheet.md).
+
+---
+
+## 10. AI/ML Bridge: Bayes, Entropy, Uncertainty & Agent Sampling
+
+To connect probability directly to modern Machine Learning loss formulations, Bayesian neural networks, and stochastic decoding in AI agents, complete the dedicated Concept 05 bridge module:
+
+- **Instructional Deep-Dive Lesson**: [`05_ai_ml_probability_bridge.md`](05_ai_ml_probability_bridge.md)  
+  *Structured under `TERM -> DEFINITION -> INTUITION -> WHY IT EXISTS -> HOW IT WORKS -> CODE` covering continuous Gaussian-Gaussian Bayesian conjugate inference, Information Theory (Shannon Entropy, Cross-Entropy, KL Divergence), Aleatoric vs Epistemic uncertainty estimation, and Temperature-Scaled Nucleus (Top-$p$) sampling.*
+- **Standalone Runnable NumPy Script**: [`05_bayesian_entropy_sampling.py`](05_bayesian_entropy_sampling.py)  
+  *Zero-dependency, standalone executable verifying Bayesian precision accumulation, information identity H(P,Q) = H(P) + D_KL, non-saturating softmax gradients (q - p), epistemic uncertainty spikes OOD, and stochastic agent sampling.*
+- **Companion MATLAB Script**: [`05_bayesian_entropy_sampling.m`](05_bayesian_entropy_sampling.m)  
+  *Native MATLAB implementation demonstrating the same five Bayesian and sampling workflows.*

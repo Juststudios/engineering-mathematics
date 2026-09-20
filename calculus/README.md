@@ -17,6 +17,7 @@ By completing this module, you will be able to:
 5. **Formulate** and **solve** first-order ordinary differential equations (ODEs) modeling thermal dissipation and RC electrical circuits using `ode45`.
 6. **Diagnose** and **debug** common computational pitfalls in MATLAB, such as array-length truncation in `diff` and step-size discretization errors.
 7. **Design** an engineering system (such as an optimal heat sink cooling profile) balancing physical constraints, settling time, and energy dissipation.
+8. **AI/ML Architecture Bridge**: Formulate multivariable gradients, evaluate layer Jacobians, analyze Hessian curvature and saddle points, execute reverse-mode backpropagation, and implement Adam optimizer dynamics.
 
 ---
 
@@ -256,4 +257,17 @@ The exercises for this module are structured into four progressive pedagogical t
 
 Complete, production-grade reference solutions with zero remaining `% TODO` markers are provided in [../solutions/calculus_exercises_solution.m](../solutions/calculus_exercises_solution.m).
 
-For quick syntax reminders during problem solving, refer to the central reference sheet `reference/calculus_cheat_sheet.md`.
+For quick syntax reminders during problem solving, refer to the central reference sheet [`../reference/calculus_cheat_sheet.md`](../reference/calculus_cheat_sheet.md).
+
+---
+
+## 10. AI/ML Bridge: Gradients, Jacobians, Hessians, Backprop & Adam
+
+To connect calculus directly to modern Deep Learning, neural networks, and adaptive optimization algorithms, complete the dedicated Concept 05 bridge module:
+
+- **Instructional Deep-Dive Lesson**: [`05_ai_ml_calculus_bridge.md`](05_ai_ml_calculus_bridge.md)  
+  *Structured under `TERM -> DEFINITION -> INTUITION -> WHY IT EXISTS -> HOW IT WORKS -> CODE` covering multivariable gradients, layer Jacobians, Hessian curvature and saddle points, reverse-mode backpropagation, and Adam optimizer dynamics.*
+- **Standalone Runnable NumPy Script**: [`05_optimization_gradients_backprop.py`](05_optimization_gradients_backprop.py)  
+  *Zero-dependency, standalone executable verifying finite-difference gradients (< 1e-7 error), Jacobian sensitivity, 2-layer backpropagation, and optimization races on anisotropic canyons.*
+- **Companion MATLAB Script**: [`05_gradients_hessians_backprop.m`](05_gradients_hessians_backprop.m)  
+  *Native MATLAB implementation demonstrating the same five optimization and backpropagation workflows.*

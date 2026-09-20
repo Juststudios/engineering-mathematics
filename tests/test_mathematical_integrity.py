@@ -460,3 +460,139 @@ class TestCapstoneTelemetryMath:
         analytical_dT_dt = 0.15 + 0.10 * np.cos(0.05 * mid_t)
         max_diff_err = np.max(np.abs(dT_dt - analytical_dT_dt))
         assert max_diff_err < 1e-4, f"Finite difference temperature derivative error too high: {max_diff_err}"
+
+
+# ==============================================================================
+# 7. AI/ML MATHEMATICAL BRIDGES (LINEAR ALGEBRA, CALCULUS, PROBABILITY)
+# ==============================================================================
+
+import importlib
+import sys
+from pathlib import Path
+
+_PKG_ROOT = Path(__file__).resolve().parent.parent
+if str(_PKG_ROOT) not in sys.path:
+    sys.path.insert(0, str(_PKG_ROOT))
+
+
+class TestLinearAlgebraAIBridge:
+    """Verifies numerical integrity of Linear Algebra AI Bridge algorithms."""
+
+    @classmethod
+    def setup_class(cls):
+        cls.la_mod = importlib.import_module("linear_algebra.07_embeddings_attention_svd")
+
+    def test_high_dim_geometry_near_orthogonality(self):
+        res = self.la_mod.analyze_high_dim_geometry(d_low=3, d_high=768, n_samples=1000)
+        assert res["mean_abs_cos_low"] > 0.40, "3D random vectors should have noticeable alignment"
+        assert res["mean_abs_cos_high"] < 0.05, "768D random vectors must be nearly orthogonal"
+        assert np.isclose(res["std_cos_high"], res["theoretical_std_high"], atol=0.01)
+
+    def test_orthogonal_projection_properties(self):
+        rng = np.random.default_rng(42)
+        X = rng.standard_normal((50, 4))
+        y = rng.standard_normal(50)
+        proj = self.la_mod.compute_orthogonal_projection(X, y)
+        assert proj["idempotence_error"] < 1e-10, "P^2 == P failed"
+        assert proj["symmetry_error"] < 1e-10, "P^T == P failed"
+        assert proj["orthogonality_error"] < 1e-10, "X^T (y - Py) == 0 failed"
+        assert proj["equivalence_error"] < 1e-10, "P y == X (X^TX)^(-1) X^T y failed"
+
+    def test_svd_lora_parameter_reduction(self):
+        res = self.la_mod.simulate_svd_and_lora(d_in=512, d_out=512, rank=8)
+        assert res["reduction_pct"] > 96.0, "LoRA parameter reduction failed"
+        assert res["initial_divergence"] == 0.0, "LoRA zero initialization failed"
+
+    def test_scaled_dot_product_attention_row_sums(self):
+        rng = np.random.default_rng(123)
+        Q = rng.standard_normal((4, 32))
+        K = rng.standard_normal((4, 32))
+        V = rng.standard_normal((4, 32))
+        context, weights = self.la_mod.scaled_dot_product_attention(Q, K, V)
+        row_sums = np.sum(weights, axis=-1)
+        assert np.allclose(row_sums, 1.0, atol=1e-12), "Attention weights must sum to 1.0"
+        assert context.shape == (4, 32)
+
+
+class TestCalculusAIBridge:
+    """Verifies numerical integrity of Calculus AI Bridge algorithms."""
+
+    @classmethod
+    def setup_class(cls):
+        cls.calc_mod = importlib.import_module("calculus.05_optimization_gradients_backprop")
+
+    def test_multivariable_gradient_verification(self):
+        A = np.array([[3.0, 1.0], [1.0, 2.0]])
+        b = np.array([4.0, -2.0])
+        loss_fn = lambda x: 0.5 * float(x.T @ A @ x) - float(b.T @ x)
+        grad_fn = lambda x: A @ x - b
+        x0 = np.array([1.0, 2.0])
+        res = self.calc_mod.check_multivariable_gradient(loss_fn, grad_fn, x0)
+        assert res["rel_error"] < 1e-8, f"Gradient relative error too high: {res['rel_error']}"
+
+    def test_layer_jacobian_linearization(self):
+        rng = np.random.default_rng(7)
+        W = rng.standard_normal((2, 3))
+        b = rng.standard_normal(2)
+        x0 = np.array([0.5, -0.5, 1.0])
+        res = self.calc_mod.compute_layer_jacobian(W, b, x0)
+        assert res["linearization_error"] < 1e-3, "Jacobian linearization failed first-order check"
+
+    def test_hessian_curvature_classification(self):
+        # Convex bowl: all positive
+        bowl = self.calc_mod.analyze_hessian_curvature(np.diag([4.0, 2.0]), np.zeros(2), 0.0)
+        assert "Minimum" in bowl["geometry"]
+        assert bowl["condition_number"] == 2.0
+
+        # Saddle: opposing signs
+        saddle = self.calc_mod.analyze_hessian_curvature(np.diag([3.0, -3.0]), np.zeros(2), 0.0)
+        assert "Saddle" in saddle["geometry"]
+
+    def test_mlp_backpropagation_gradient_check(self):
+        rng = np.random.default_rng(88)
+        X = rng.standard_normal((3, 10))
+        Y = rng.standard_normal((2, 10))
+        res = self.calc_mod.run_mlp_backpropagation(X, Y, hidden_dim=6)
+        assert res["grad_check_W2_rel_err"] < 1e-7, "Backprop W2 gradient check failed"
+
+    def test_adam_vs_sgd_convergence_on_canyon(self):
+        res = self.calc_mod.compare_optimization_dynamics(steps=150, kappa=100.0, lr=0.01)
+        assert res["norm_adam"] < res["norm_sgd"], "Adam must converge closer than SGD on ill-conditioned canyon"
+
+
+class TestProbabilityAIBridge:
+    """Verifies numerical integrity of Probability AI Bridge algorithms."""
+
+    @classmethod
+    def setup_class(cls):
+        cls.prob_mod = importlib.import_module("probability.05_bayesian_entropy_sampling")
+
+    def test_gaussian_bayes_precision_accumulation(self):
+        res = self.prob_mod.run_sequential_bayes_update(
+            prior_mu=10.0, prior_sigma=10.0,
+            true_theta=50.0, sensor_sigma=2.0,
+            n_samples=100
+        )
+        assert res["posterior_sigma"] < 0.25, "Posterior standard deviation did not shrink as expected"
+        assert res["discrepancy_with_mle"] < 0.5, "Posterior mean did not converge near sample mean"
+
+    def test_information_theory_metrics_identity(self):
+        P = np.array([0.5, 0.3, 0.2])
+        Q = np.array([0.4, 0.4, 0.2])
+        res = self.prob_mod.compute_information_metrics(P, Q)
+        assert res["identity_error"] < 1e-12, "Identity H(P, Q) = H(P) + D_KL(P || Q) violated"
+
+    def test_softmax_cross_entropy_gradient(self):
+        logits = np.array([2.5, 1.0, -0.5])
+        res = self.prob_mod.compute_softmax_cross_entropy_grad(logits, target_class=0)
+        assert res["gradient_rel_error"] < 1e-7, "Cross-entropy analytical gradient check failed"
+
+    def test_epistemic_uncertainty_ood_explosion(self):
+        res = self.prob_mod.decompose_predictive_uncertainty(x_in_dist=0.5, x_out_dist=4.5, n_ensemble=8)
+        assert res["ood_epistemic_inflation_ratio"] > 10.0, "Epistemic uncertainty failed to explode OOD"
+
+    def test_nucleus_sampling_truncation(self):
+        logits = np.array([4.0, 3.5, 1.0, -1.0, -4.0])
+        res = self.prob_mod.sample_top_p_nucleus(logits, temperature=0.7, top_p=0.80, seed=42)
+        assert res["nucleus_size"] < res["total_vocab_size"], "Nucleus failed to truncate low tail"
+        assert res["chosen_token"] in res["nucleus_indices"], "Sampled token not in nucleus"

@@ -12,6 +12,7 @@ By the end of this module, students will be able to:
 - **Analyze**: Evaluate matrix invertibility, numerical conditioning ($\kappa(A) = \text{cond}(A)$), and loss of precision; diagnose and rectify ill-conditioned or dimension-mismatched linear formulations.
 - **Evaluate & Interpret**: Compute eigenvalues and eigenvectors using `eig` to determine resonant frequencies and mode shapes of multi-degree-of-freedom structures, principal stresses in solid mechanics, and principal components in data science.
 - **Create**: Synthesize linear algebra techniques with machine learning paradigms, framing ordinary least squares linear regression ($\mathbf{w} = (X^T X)^{-1} X^T \mathbf{y}$) and Principal Component Analysis (PCA) via Singular Value Decomposition (SVD).
+- **AI/ML Architecture Bridge**: Implement high-dimensional embeddings, orthogonal projection operators, Low-Rank Adaptation (LoRA) weight parameterizations, and the Scaled Dot-Product Attention mechanism ($Q, K, V$) powering modern Transformers.
 
 ---
 
@@ -282,3 +283,16 @@ The accompanying file `exercises.m` reinforces these concepts through 4 progress
 
 Complete reference solutions with detailed pedagogical annotations are provided in:
 `/home/settings/Documents/pearl/engineering-mathematics/solutions/linear_algebra_exercises_solution.m`
+
+---
+
+## 10. AI/ML Bridge: Embeddings, Attention, Projections & SVD
+
+To connect linear algebra directly to modern Deep Learning, Transformers, and LLM Agent architectures, complete the dedicated Concept 07 bridge module:
+
+- **Instructional Deep-Dive Lesson**: [`07_ai_ml_linear_algebra_bridge.md`](07_ai_ml_linear_algebra_bridge.md)  
+  *Structured under `TERM -> DEFINITION -> INTUITION -> WHY IT EXISTS -> HOW IT WORKS -> CODE` covering high-dimensional embedding spaces, orthogonal projection operators, SVD/LoRA parameter compression, and Scaled Dot-Product Attention.*
+- **Standalone Runnable NumPy Script**: [`07_embeddings_attention_svd.py`](07_embeddings_attention_svd.py)  
+  *Zero-dependency, standalone executable verifying near-orthogonality in 768-D, projection idempotence, LoRA 98%+ parameter reduction, and Multi-Head Attention.*
+- **Companion MATLAB Script**: [`07_embeddings_attention_svd.m`](07_embeddings_attention_svd.m)  
+  *Native MATLAB implementation demonstrating the same four modern AI mathematical workflows.*
