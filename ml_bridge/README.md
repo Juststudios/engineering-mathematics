@@ -67,9 +67,9 @@ In classical engineering, linear algebra solves static truss equilibrium ($A\mat
 In classical engineering, calculus models continuous physical dynamics: vehicle acceleration ($a = dv/dt$) and heat dissipation ($dT/dt = -k(T - T_{\text{amb}})$). In AI, calculus provides the engine that navigates billion-parameter loss landscapes:
 
 ### 2.1 The Multivariable Gradient Vector
-- For a scalar loss function $\mathcal{L}(\boldsymbol{\theta}): \mathbb{R}^n \to \mathbb{R}$, the gradient $\nabla \mathcal{L}(\boldsymbol{\theta})$ points in the direction of steepest increase.
+- For a scalar loss function $\mathcal{L}(\boldsymbol {\theta}): \mathbb{R}^n \to \mathbb{R}$, the gradient $\nabla \mathcal{L}(\boldsymbol{\theta})$ points in the direction of steepest increase.
 - Cauchy-Schwarz inequality proves that the negative normalized gradient $-\frac{\nabla \mathcal{L}}{\|\nabla \mathcal{L}\|}$ maximizes the instantaneous rate of loss reduction, establishing the fundamental update:
-  $$\boldsymbol{\theta}_{t+1} = \boldsymbol{\theta}_t - \alpha \nabla \mathcal{L}(\boldsymbol{\theta}_t)$$
+  $$\boldsymbol {\theta}_{t+1} = \boldsymbol {\theta}_t - \alpha \nabla \mathcal{L}(\boldsymbol{\theta}_t)$$
 
 ### 2.2 Vector-to-Vector Layer Mappings & The Jacobian Matrix
 - Neural networks are compositions of vector-to-vector functions: $\mathbf{y} = \mathbf{f}(\mathbf{x}): \mathbb{R}^n \to \mathbb{R}^m$.
@@ -77,7 +77,7 @@ In classical engineering, calculus models continuous physical dynamics: vehicle 
 
 ### 2.3 Loss Curvature, The Hessian Matrix & Saddle Points
 - The second-order Taylor expansion reveals the local curvature of the loss surface:
-  $$\mathcal{L}(\boldsymbol{\theta} + \mathbf{v}) \approx \mathcal{L}(\boldsymbol{\theta}) + \nabla \mathcal{L}^T \mathbf{v} + \frac{1}{2} \mathbf{v}^T H \mathbf{v}$$
+  $$\mathcal{L}(\boldsymbol{\theta} + \mathbf{v}) \approx \mathcal{L}(\boldsymbol {\theta}) + \nabla \mathcal{L}^T \mathbf{v} + \frac{1}{2} \mathbf{v}^T H \mathbf{v}$$
 - In high-dimensional optimization, local minima are rare. The vast majority of critical points ($\nabla \mathcal{L} = \mathbf{0}$) are **saddle points**, where the Hessian possesses both positive and negative eigenvalues.
 - Furthermore, ill-conditioned curvature ($\kappa(H) = \frac{\lambda_{\max}}{\lambda_{\min}} \gg 1$) creates steep, narrow ravines where vanilla gradient descent oscillates violently between canyon walls rather than progressing down the valley.
 
